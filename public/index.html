@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Nuar by Kyberlox</title>
+        <style>
+                body{
+                        background-image: url(/public/imgs/fon.jpeg);
+                }
+
+                div{
+                        position: fixed;
+                }
+
+                #downMenu {
+                        left: 100px;
+                        width: 1000px;
+                        height: 100px;
+                }
+                #upMenu {
+                        left: 100px;
+                        top:1100px;
+                        width: 1000px;
+                        height: 100px;
+                }
+                .updown {
+                        position: fixed;
+                }
+
+                #rightMenu{
+                        top: 100px;
+                        width: 100px;
+                        height: 1000px;
+                }
+                #leftMenu{
+                        position: relative;
+                        top: 100px;
+                        left: 1100px;
+                        width: 100px;
+                        height: 1000px;
+                }
+                .rightleft{
+                        width: 10%;
+                        height: 20%;
+                }
+
+                #board {
+                        left: 100px;
+                        top:100px;
+                        width : 1000px;
+                        height: 1000px;
+                }
+                .person {
+                        width: 20%;
+                        height: 20%;
+                        position: fixed;
+                        border: 2px solid rgb(0, 0, 0);
+                }
+
+                #randPerson{
+                        position: relative;
+                        top: -700px;
+                        left: 1200px;
+                        width: 200px;
+                        height: 200px;
+                }
+                #RDP{
+                        width: 300%;
+                        height: 300%;
+                }
+        </style>
+    </head>
+    <body>
+        <script>
+                //стартовая позиция элементов
+                let pers = [
+                        [1, 2, 3, 4, 5],
+                        [6, 7, 8, 9, 10],
+                        [11, 12, 13, 14, 15],
+                        [16, 17, 18, 19, 20],
+                        [21, 22, 23, 24, 25]
+                ];
+        </script>
+    
+        <div id="downMenu">
+                <script>
+                        //калонна вниз
+                        function Down(column){
+                                for (let i = 0; i < 5; i++){
+                                        for (let j = 0; j < 5; j++){
+                                                let person =  document.getElementById(`person${pers[i][j]}`);
+                                                person.remove();
+                                        };
+                                };
+
+                                let k = pers[4][column];
+                                pers[4][column] = pers[3][column];
+                                pers[3][column] = pers[2][column];
+                                pers[2][column] = pers[1][column];
+                                pers[1][column] = pers[0][column];
+                                pers[0][column] = k;
+
+                                main();
+                        };
+                        for (let j = 0; j < 5; j++){
+                                let down = document.createElement('img');
+                                down.id = `down${j}`;
+                                down.class = "updown";
+                                down.src = `imgs/down.jpg`;
+                                down.addEventListener("click", () => Down(j));
+
+                                let updownMenu =  document.getElementById("downMenu");
+                                updownMenu.append(down);
+                        };
+                </script>
+                
+        </div>
+
+        <div>
+                <div id ="rightMenu">
+                        <script>
+                        //строка вправо
+                        function goRight(row){
+                                console.log(row);
+                                for (let i = 0; i < 5; i++){
+                                        for (let j = 0; j < 5; j++){
+
+                                                let person =  document.getElementById(`person${pers[i][j]}`);
+                                                person.remove();
+                                        };
+                                };
+
+                                let k = pers[row][4];
+                                pers[row][4] = pers[row][3];
+                                pers[row][3] = pers[row][2];
+                                pers[row][2] = pers[row][1];
+                                pers[row][1] = pers[row][0];
+                                pers[row][0] = k;
+
+                                main();
+                        };
+
+                        for (let i = 0; i < 5; i++){
+                                let right = document.createElement('img');
+                                right.id = `right${i}`;
+                                right.class = "rightleft";
+                                right.src = `imgs/right.jpg`;
+                                right.addEventListener("click", () => goRight(i));
+
+                                //document.body.append(right);
+                                let rightMenu = document.getElementById("rightMenu");
+                                rightMenu.append(right);
+                        };
+                        </script> 
+                </div>
+
+                <div id = "board">
+                <script>
+                        //прорисовка поля и основной main
+                        function deth (i, j){
+                                let Person = document.getElementById(`person${pers[i][j]}`);
+                                Person.src = "imgs/0.jpg";
+                                Person.id = "person0";
+                                pers[i][j] = 0;
+                                cliked = true;
+                        };
+                function main(){
+                        for (let i = 0; i < 5; i++){
+                                for (let j = 0; j < 5; j++){
+                                        let person = document.createElement("img");
+                                        person.class = "person";
+                                        person.id = `person${pers[i][j]}`;
+                                        person.src = `imgs/${pers[i][j]}.jpg`;
+                                        person.addEventListener("click", () => deth(i, j));
+                                        let board = document.getElementById("board");
+                                        board.append(person);
+                                };
+                        };
+                };
+                main();
+                </script>
+                </div>
+
+                <div id="leftMenu"> 
+                        <script>
+                                //строка влево
+                                function goLeft(row){
+                                for (let i = 0; i < 5; i++){
+                                        for (let j = 0; j < 5; j++){
+
+                                                let person =  document.getElementById(`person${pers[i][j]}`);
+                                                person.remove();
+                                        };
+                                };
+
+                                let k = pers[row][0];
+                                pers[row][0] = pers[row][1];
+                                pers[row][1] = pers[row][2];
+                                pers[row][2] = pers[row][3];
+                                pers[row][3] = pers[row][4];
+                                pers[row][4] = k;
+
+                                main();
+                                };
+                                for (let i = 0; i < 5; i++){
+                                        let left = document.createElement('img');
+                                        left.id = `left${i}`;
+                                        left.class = "rightleft";
+                                        left.src = `imgs/left.jpg`;
+                                        left.addEventListener("click", () => goLeft(i));
+        
+                                        let leftMenu = document.getElementById("leftMenu");
+                                        leftMenu.append(left);
+                                };
+                                </script> 
+                </div>
+
+                <div id="randPerson">
+                        <script>
+                                function rePerson () {
+                                        let RDpers = document.getElementById("RDP");
+                                        RDpers.remove();
+                                        randPerson();
+                                };
+                                function randPerson () {
+                                        let min = Math.ceil(0);
+                                        let max = Math.floor(25);
+                                        let i = Math.floor(Math.random() * (max - min + 1) + min);
+
+                                        let RDpers = document.createElement('img');
+                                        RDpers.addEventListener("click", () => rePerson());
+                                        RDpers.id = `RDP`;
+                                        RDpers.src = `imgs/${i}.jpg`;
+
+                                        let rPerson = document.getElementById("randPerson");
+                                        rPerson.append(RDpers);
+                                };
+                                randPerson();
+                        </script>
+                </div>
+        </div> 
+        
+        <div id="upMenu">
+                <script>
+                        //калонна вверх
+                        function Up(column){
+                                for (let i = 0; i < 5; i++){
+                              
+                                        for (let j = 0; j < 5; j++){
+
+                                                let person =  document.getElementById(`person${pers[i][j]}`);
+                                                person.remove();
+                                        };
+                                };
+                                
+                                let k = pers[0][column];
+                                pers[0][column] = pers[1][column];
+                                pers[1][column] = pers[2][column];
+                                pers[2][column] = pers[3][column];
+                                pers[3][column] = pers[4][column];
+                                pers[4][column] = k;
+
+                                main();
+                        };
+
+                        for (let j = 0; j < 5; j++){
+                                let up = document.createElement('img');
+                                up.id = `up${j}`;
+                                up.class = "updown";
+                                up.src = `imgs/up.jpg`;
+                                up.addEventListener("click", () => Up(j));
+
+                                let upMenu =  document.getElementById("upMenu");
+                                upMenu.append(up);
+                        };
+                </script>
+        </div>
+    </body>
+</html>
